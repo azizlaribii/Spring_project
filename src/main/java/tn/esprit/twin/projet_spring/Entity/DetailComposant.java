@@ -1,9 +1,6 @@
 package tn.esprit.twin.projet_spring.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 public class DetailComposant {
@@ -11,14 +8,24 @@ public class DetailComposant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDetailComposant;
     private Float imc;
-    private TypeComposant TypeComposant;
+
+    @Enumerated(EnumType.STRING)
+    private TypeComposant typeComposant;
+
+    @ManyToOne
+    @JoinColumn(name = "composant_id")
+    private Composant composant;
 
     public DetailComposant(Long idDetailComposant, Float imc, TypeComposant typeComposant) {
         this.idDetailComposant = idDetailComposant;
         this.imc = imc;
-        TypeComposant = typeComposant;
+        this.typeComposant = typeComposant;
     }
 
+    public DetailComposant() {
+    }
+
+    // Getters and Setters
     public Long getIdDetailComposant() {
         return idDetailComposant;
     }
@@ -36,10 +43,18 @@ public class DetailComposant {
     }
 
     public TypeComposant getTypeComposant() {
-        return TypeComposant;
+        return typeComposant;
     }
 
     public void setTypeComposant(TypeComposant typeComposant) {
-        TypeComposant = typeComposant;
+        this.typeComposant = typeComposant;
+    }
+
+    public Composant getComposant() {
+        return composant;
+    }
+
+    public void setComposant(Composant composant) {
+        this.composant = composant;
     }
 }

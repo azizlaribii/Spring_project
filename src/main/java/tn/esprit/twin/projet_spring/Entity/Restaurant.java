@@ -1,9 +1,7 @@
 package tn.esprit.twin.projet_spring.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Restaurant {
@@ -13,13 +11,25 @@ public class Restaurant {
     private String nom;
     private Long nbPlacesMax;
 
+    @ManyToOne
+    @JoinColumn(name = "chaine_restauration_id")
+    private ChaineRestauration chaineRestauration;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private Set<Menu> menus;
+
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private ChefCuisinier chefCuisinier;
+
     public Restaurant(Long idRestaurant, String nom, Long nbPlacesMax) {
         this.idRestaurant = idRestaurant;
         this.nom = nom;
         this.nbPlacesMax = nbPlacesMax;
     }
+
     public Restaurant() {}
 
+    // Getters and Setters
     public Long getIdRestaurant() {
         return idRestaurant;
     }
@@ -42,5 +52,29 @@ public class Restaurant {
 
     public void setNbPlacesMax(Long nbPlacesMax) {
         this.nbPlacesMax = nbPlacesMax;
+    }
+
+    public ChaineRestauration getChaineRestauration() {
+        return chaineRestauration;
+    }
+
+    public void setChaineRestauration(ChaineRestauration chaineRestauration) {
+        this.chaineRestauration = chaineRestauration;
+    }
+
+    public Set<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Set<Menu> menus) {
+        this.menus = menus;
+    }
+
+    public ChefCuisinier getChefCuisinier() {
+        return chefCuisinier;
+    }
+
+    public void setChefCuisinier(ChefCuisinier chefCuisinier) {
+        this.chefCuisinier = chefCuisinier;
     }
 }

@@ -1,11 +1,8 @@
 package tn.esprit.twin.projet_spring.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 public class ChaineRestauration {
@@ -13,18 +10,21 @@ public class ChaineRestauration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idChaineRestauration;
     private String libelle;
-    private LocalDateTime dateCreation;
+    private LocalDate dateCreation;
 
-    public ChaineRestauration(Long idChaineRestauration, String libelle, LocalDateTime dateCreation) {
+    @OneToMany(mappedBy = "chaineRestauration", cascade = CascadeType.ALL)
+    private Set<Restaurant> restaurants;
+
+    public ChaineRestauration() {
+    }
+
+    public ChaineRestauration(Long idChaineRestauration, String libelle, LocalDate dateCreation) {
         this.idChaineRestauration = idChaineRestauration;
         this.libelle = libelle;
         this.dateCreation = dateCreation;
     }
 
-    public ChaineRestauration() {
-
-    }
-
+    // Getters and Setters
     public Long getIdChaineRestauration() {
         return idChaineRestauration;
     }
@@ -41,11 +41,19 @@ public class ChaineRestauration {
         this.libelle = libelle;
     }
 
-    public LocalDateTime getDateCreation() {
+    public LocalDate getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(LocalDateTime dateCreation) {
+    public void setDateCreation(LocalDate dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public Set<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(Set<Restaurant> restaurants) {
+        this.restaurants = restaurants;
     }
 }

@@ -1,9 +1,7 @@
 package tn.esprit.twin.projet_spring.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Menu {
@@ -11,20 +9,37 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMenu;
     private String libelleMenu;
-    private TypeMenu TypeMenu;
+
+    @Enumerated(EnumType.STRING)
+    private TypeMenu typeMenu;
+
     private Float prix;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+    private Set<Composant> composants;
+
+    @ManyToMany(mappedBy = "menus")
+    private Set<Commande> commandes;
+
+    // Relation ManyToMany avec ChefCuisinier
+    @ManyToMany(mappedBy = "menus")
+    private Set<ChefCuisinier> chefCuisiniers;
 
     public Menu(Long idMenu, String libelleMenu, TypeMenu typeMenu, Float prix) {
         this.idMenu = idMenu;
         this.libelleMenu = libelleMenu;
-        TypeMenu = typeMenu;
+        this.typeMenu = typeMenu;
         this.prix = prix;
     }
 
     public Menu() {
-
     }
 
+    // Getters and Setters
     public Long getIdMenu() {
         return idMenu;
     }
@@ -42,11 +57,11 @@ public class Menu {
     }
 
     public TypeMenu getTypeMenu() {
-        return TypeMenu;
+        return typeMenu;
     }
 
     public void setTypeMenu(TypeMenu typeMenu) {
-        TypeMenu = typeMenu;
+        this.typeMenu = typeMenu;
     }
 
     public Float getPrix() {
@@ -55,5 +70,37 @@ public class Menu {
 
     public void setPrix(Float prix) {
         this.prix = prix;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Set<Composant> getComposants() {
+        return composants;
+    }
+
+    public void setComposants(Set<Composant> composants) {
+        this.composants = composants;
+    }
+
+    public Set<Commande> getCommandes() {
+        return commandes;
+    }
+
+    public void setCommandes(Set<Commande> commandes) {
+        this.commandes = commandes;
+    }
+
+    public Set<ChefCuisinier> getChefCuisiniers() {
+        return chefCuisiniers;
+    }
+
+    public void setChefCuisiniers(Set<ChefCuisinier> chefCuisiniers) {
+        this.chefCuisiniers = chefCuisiniers;
     }
 }

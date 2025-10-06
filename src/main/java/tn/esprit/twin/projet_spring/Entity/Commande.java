@@ -1,11 +1,8 @@
 package tn.esprit.twin.projet_spring.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Commande {
@@ -18,6 +15,14 @@ public class Commande {
     private Float totalCommande;
     private Long note;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    @ManyToMany
+    @JoinTable(name = "commande_menu")
+    private Set<Menu> menus;
+
     public Commande(Long idCommande, LocalDateTime dateCommande, Integer pourcentageRemise, Float totalRemise, Float totalCommande, Long note) {
         this.idCommande = idCommande;
         this.dateCommande = dateCommande;
@@ -28,9 +33,9 @@ public class Commande {
     }
 
     public Commande() {
-
     }
 
+    // Getters and Setters
     public Long getIdCommande() {
         return idCommande;
     }
@@ -77,5 +82,21 @@ public class Commande {
 
     public void setNote(Long note) {
         this.note = note;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Set<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Set<Menu> menus) {
+        this.menus = menus;
     }
 }

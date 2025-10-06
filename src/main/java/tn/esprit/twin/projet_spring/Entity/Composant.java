@@ -1,9 +1,7 @@
 package tn.esprit.twin.projet_spring.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Composant {
@@ -12,6 +10,14 @@ public class Composant {
     private Long idComposant;
     private String nomComposant;
     private Float prix;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
+
+    @OneToMany(mappedBy = "composant", cascade = CascadeType.ALL)
+    private Set<DetailComposant> detailComposants;
+
     public Composant() {}
 
     public Composant(Long idComposant, String nomComposant, Float prix) {
@@ -20,6 +26,7 @@ public class Composant {
         this.prix = prix;
     }
 
+    // Getters and Setters
     public Long getIdComposant() {
         return idComposant;
     }
@@ -42,5 +49,21 @@ public class Composant {
 
     public void setPrix(Float prix) {
         this.prix = prix;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public Set<DetailComposant> getDetailComposants() {
+        return detailComposants;
+    }
+
+    public void setDetailComposants(Set<DetailComposant> detailComposants) {
+        this.detailComposants = detailComposants;
     }
 }
